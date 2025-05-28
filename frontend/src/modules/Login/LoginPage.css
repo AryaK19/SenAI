@@ -1,0 +1,104 @@
+.login-page-container {
+  width: 100%;
+  background: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  height: 100%;
+}
+
+.login-row {
+  width: 100%;
+}
+
+.login-left-panel {
+  color: blue;
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.illustration-container {
+  text-align: center;
+  margin: 40px 0;
+}
+
+.login-illustration {
+  max-width: 80%;
+  height: auto;
+  margin-bottom: 24px;
+}
+
+.illustration-container h2 {
+  color: rgb(53, 53, 232);
+  font-size: 24px;
+  margin-bottom: 12px;
+}
+
+.illustration-container p {
+  color: rgba(49, 109, 248, 0.85);
+  font-size: 16px;
+}
+
+.login-right-panel {
+  background: linear-gradient(135deg, #1890ff, #0050b3);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding-bottom: 40px;
+  height: 100%;
+}
+
+.login-card {
+  width: 100%;
+  max-width: 450px;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+  margin-top: 100px;
+}
+
+.card-logo {
+  margin-bottom: -10px;
+}
+
+.login-tabs {
+  margin-bottom: 0;
+}
+
+.login-form-button {
+  width: 100%;
+  height: 40px;
+  border-radius: 6px;
+}
+
+.login-form-forgot {
+  float: right;
+}
+
+.terms-text {
+  font-size: 12px;
+  text-align: center;
+  margin-top: 16px;
+}
+
+.terms-text a {
+  color: #1890ff;
+}
+
+/* Responsive adjustments for smaller screens */
+@media (max-width: 768px) {
+  .login-left-panel {
+    display: none;
+  }
+
+  .login-right-panel {
+    padding: 20px;
+  }
+
+  .login-card {
+    box-shadow: none;
+  }
+}
