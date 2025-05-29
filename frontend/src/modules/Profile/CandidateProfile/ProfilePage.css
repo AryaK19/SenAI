@@ -1,0 +1,290 @@
+/* Base container for profile page */
+.profile-container {
+  height: 100%;
+  width: 100%;
+  overflow-y: auto;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.profile-header {
+  margin-bottom: 20px;
+}
+
+.profile-card {
+  margin-bottom: 20px;
+  overflow: visible;
+  transition: transform 0.3s ease;
+}
+
+.profile-card:hover {
+  transform: scale(1.02);
+}
+
+.profile-avatar-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.profile-form {
+  max-width: 100%;
+}
+
+.profile-section {
+  margin-bottom: 24px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.profile-loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  min-height: 300px;
+}
+
+.profile-submit-button {
+  min-width: 120px;
+}
+
+.education-card {
+  align-items: center;
+  margin-bottom: 10px;
+}
+.info-card {
+  margin-bottom: 12px;
+}
+
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #f9f9f9;
+  border-radius: 4px;
+  text-align: center;
+}
+
+/* Make sure the root container takes full available height */
+#root, 
+body, 
+html {
+  height: 100%;
+}
+
+.fade-in-animation {
+  animation: fadeIn 0.8s ease-in-out forwards;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Personal Information Section Styles */
+.personal-info-section {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 24px;
+  border: 1px solid #f0f0f0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+.personal-info-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+  margin-top: 16px;
+}
+
+.personal-info-item {
+  display: flex;
+  flex-direction: column;
+  padding: 16px;
+  background: #fafafa;
+  border-radius: 8px;
+  border: 1px solid #f0f0f0;
+  transition: all 0.3s ease;
+}
+
+.personal-info-item:hover {
+  background: #f5f5f5;
+  border-color: #d9d9d9;
+}
+
+.personal-info-label {
+  display: flex;
+  align-items: center;
+  font-size: 12px;
+  font-weight: 600;
+  color: #666;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 8px;
+}
+
+.personal-info-label .anticon {
+  margin-right: 6px;
+  color: #1890ff;
+}
+
+.personal-info-value {
+  font-size: 15px;
+  font-weight: 500;
+  color: #262626;
+  min-height: 22px;
+  display: flex;
+  align-items: center;
+}
+
+.personal-info-value.empty {
+  color: #bfbfbf;
+  font-style: italic;
+}
+
+.personal-info-edit-form {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 24px;
+  border: 2px solid #1890ff;
+  box-shadow: 0 4px 12px rgba(24, 144, 255, 0.1);
+}
+
+.personal-info-form-actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 24px;
+  padding-top: 20px;
+  border-top: 1px solid #f0f0f0;
+}
+
+/* Skills Categories Styles */
+.skills-categories-container {
+  margin-top: 16px;
+}
+
+.skills-category-card {
+  transition: all 0.3s ease;
+  border-radius: 12px;
+  overflow: hidden;
+  position: relative;
+}
+
+.skills-category-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+}
+
+.skills-category-card .ant-card-head {
+  padding: 12px 16px;
+  min-height: auto;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.skills-category-card .ant-card-head-title {
+  padding: 0;
+  font-size: 14px;
+}
+
+.skills-category-card .ant-card-body {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  height: calc(100% - 60px);
+  min-height: 120px;
+}
+
+.skills-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  flex: 1;
+  align-content: flex-start;
+}
+
+.skills-empty-state {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  min-height: 80px;
+  text-align: center;
+  padding: 20px 10px;
+  border: 2px dashed rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.3);
+}
+
+/* Ensure consistent card heights */
+.skills-category-card .ant-card {
+  height: 100%;
+}
+
+/* Enhanced tag styling for skills */
+.skills-list .ant-tag {
+  display: inline-flex;
+  align-items: center;
+  border: none;
+  font-weight: 500;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
+  transition: all 0.2s ease;
+}
+
+.skills-list .ant-tag:hover {
+  transform: scale(1.05);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .personal-info-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  
+  .personal-info-item {
+    padding: 12px;
+  }
+  
+  .skills-categories-container .ant-col {
+    margin-bottom: 16px;
+  }
+  
+  .skills-category-card {
+    min-height: 160px;
+  }
+  
+  .skills-category-card .ant-card-body {
+    min-height: 100px;
+  }
+  
+  .skills-empty-state {
+    min-height: 60px;
+    padding: 15px 8px;
+  }
+}
+
+@media (max-width: 576px) {
+  .skills-categories-container {
+    margin-top: 12px;
+  }
+  
+  .skills-category-card .ant-card-head {
+    padding: 10px 12px;
+  }
+  
+  .skills-category-card .ant-card-body {
+    padding: 12px;
+  }
+}

@@ -70,17 +70,24 @@ class Skills(db.Model):
     def __repr__(self):
         return f"<Skill '{self.skill_name}' - {self.proficiency_level}>"
     
-
-
-
-
-class Company(db.Model):
-    """Company model for storing company related details"""
-    id = db.Column(db.Integer, primary_key=True)
-    email = db.Column(db.String(120), unique=True, nullable=False)
-    company_name = db.Column(db.String(120), nullable=False)
-    password = db.Column(db.String(128), nullable=False)
-    created_at = db.Column(db.DateTime, default=datetime.utcnow)
-
+class AppliedCandidate(db.Model):
+    """Model for tracking job applications by candidates"""
+    __tablename__ = "appliedcandidates"
+    
+    application_id = db.Column(db.Integer, primary_key=True)
+    candidate_id = db.Column(db.Integer, db.ForeignKey('candidates.candidate_id', ondelete='CASCADE'), nullable=False)
+    job_id = db.Column(db.Integer, db.ForeignKey('companies.job_id', ondelete='CASCADE'), nullable=False)
+    applied_at = db.Column(db.DateTime, server_default=func.now())
+    shortlisted = db.Column(db.Boolean, default=False)
+    
+    # Define relationships
+    candidate = db.relationship('Candidate', backref=db.backref('applications', lazy=True))
+    job = db.relationship('Company', backref=db.backref('applicants', lazy=True))
+    
+    # Add unique constraint
+    __table_args__ = (
+        db.UniqueConstraint('candidate_id', 'job_id', name='uq_candidate_job'),
+    )
+    
     def __repr__(self):
-        return f"<Company '{self.company_name}'>"
+        return f"<Application {self.application_id}: Candidate {self.candidate_id} for Job {self.job_id}>"

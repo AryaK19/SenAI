@@ -1,0 +1,100 @@
+.candidate-card {
+  margin-bottom: 16px;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.candidate-card.shortlisted {
+  box-shadow: 0 0 8px rgba(82, 196, 26, 0.2);
+}
+
+.candidate-header {
+  display: flex;
+  align-items: flex-start;
+}
+
+.candidate-avatar-container {
+  position: relative;
+  margin-right: 16px;
+}
+
+.shortlisted-avatar {
+  border: 2px solid #52c41a;
+}
+
+.shortlist-badge {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+}
+
+.candidate-title {
+  flex: 1;
+}
+
+.candidate-meta {
+  display: flex;
+  align-items: center;
+}
+
+.candidate-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-left: 16px;
+}
+
+.candidate-body {
+  display: flex;
+  flex-direction: column;
+}
+
+.info-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.info-icon {
+  margin-right: 8px;
+  color: #1890ff;
+}
+
+.candidate-section {
+  margin-top: 16px;
+}
+
+.education-item {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.skill-category {
+  margin-bottom: 12px;
+}
+
+.skills-container {
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 8px;
+}
+
+.skill-tag {
+  margin-right: 8px;
+  margin-bottom: 8px;
+}
+
+@media (max-width: 576px) {
+  .candidate-header {
+    flex-direction: column;
+  }
+  
+  .candidate-avatar-container {
+    margin-bottom: 16px;
+  }
+  
+  .candidate-actions {
+    margin-top: 16px;
+    margin-left: 0;
+  }
+}

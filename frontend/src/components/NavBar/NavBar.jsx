@@ -1,7 +1,7 @@
 import { Layout, Menu, Dropdown, Avatar, Space, Typography, Image } from 'antd';
-import { UserOutlined, LogoutOutlined, DashboardOutlined, ProfileOutlined } from '@ant-design/icons';
+import { UserOutlined, LogoutOutlined, DashboardOutlined, ProfileOutlined, CloudUploadOutlined } from '@ant-design/icons';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { logout, getCurrentUser } from '../../services/authService';
+import { logout, getCurrentUser, getUserType } from '../../services/authService';
 
 const { Header } = Layout;
 const { Text } = Typography;
@@ -10,6 +10,7 @@ const NavBar = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const currentUser = getCurrentUser();
+  const userType = getUserType();
 
   const handleLogout = () => {
     logout();
@@ -35,18 +36,28 @@ const NavBar = () => {
     }
   ];
 
-  const navItems = [
+  // Define nav items based on user type
+  let navItems = [
     {
       key: '/',
       icon: <DashboardOutlined />,
       label: 'Dashboard',
     },
     {
-      key: '/profile',
+      key:  '/profile' ,
       icon: <ProfileOutlined />,
-      label: 'Profile',
+      label: userType === 'company'?'Job Details' : 'My Profile',
     }
   ];
+  
+  // Add Resume Upload item for company users only
+  if (userType === 'company') {
+    navItems.push({
+      key: '/resume-upload',
+      icon: <CloudUploadOutlined />,
+      label: 'Resume Upload',
+    });
+  }
 
   const handleMenuClick = ({ key }) => {
     navigate(key);
@@ -77,12 +88,14 @@ const NavBar = () => {
         minWidth: '70px',
       }}>
         <Image 
-          src="/src/assets/logo.png" 
-          alt="Logo" 
-          width={60} 
-          height={60}
-          preview={false}
-          style={{ objectFit: 'contain' }}
+        src="/src/assets/logo.png" 
+        alt="Logo" 
+        width={60} 
+        height={60}
+        preview={false}
+        style={{ objectFit: 'contain', cursor: 'pointer', marginBottom: '5px' }}
+        onClick={() => navigate('/')}
+            
         />
       </div>
 

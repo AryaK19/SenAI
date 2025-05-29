@@ -20,14 +20,17 @@ const MainLayout = () => {
           flex: 1,
           padding: '24px 50px',
           overflow: 'auto',
-          backgroundColor: 'white'
+          backgroundColor: 'white',
+          display: 'flex',
+          flexDirection: 'column'
         }}
       >
         <div style={{ 
-          minHeight: '100%',
-          backgroundColor: 'white',
+          flex: 1,
+          background: 'linear-gradient(to right,rgb(255, 255, 255),rgb(255, 255, 255),rgb(240, 247, 255))',
           padding: '24px',
-          borderRadius: '8px'
+          borderRadius: '8px',
+          overflowY: 'auto'
         }}>
           <Outlet />
         </div>

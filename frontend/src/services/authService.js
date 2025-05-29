@@ -120,6 +120,11 @@ export const getUserType = () => {
   return localStorage.getItem('userType');
 };
 
+// Helper function to get authentication token
+export const getAuthToken = () => {
+  return localStorage.getItem('token');
+};
+
 // Helper function to logout
 export const logout = () => {
   localStorage.removeItem('token');

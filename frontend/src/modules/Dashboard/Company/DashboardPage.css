@@ -1,0 +1,157 @@
+.dashboard-container {
+  padding: 24px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.dashboard-stats {
+  margin-bottom: 24px;
+}
+
+.dashboard-stats .ant-card {
+  height: 100%;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.09);
+  border-radius: 8px;
+}
+
+.upload-card {
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  background: #fff;
+}
+
+.upload-dragger {
+  background: #fafafa;
+  border: 1px dashed #d9d9d9;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: border-color 0.3s;
+}
+
+.upload-dragger:hover {
+  border-color: #1890ff;
+}
+
+.upload-actions {
+  display: flex;
+  justify-content: center;
+  margin-top: 16px;
+}
+
+.upload-warning {
+  margin-top: 16px;
+  text-align: center;
+}
+
+.result-summary {
+  margin-bottom: 24px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.result-section {
+  margin-bottom: 16px;
+}
+
+.upload-results {
+  max-height: 500px;
+  overflow-y: auto;
+}
+
+.candidates-container {
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.09);
+  margin-bottom: 24px;
+}
+
+.candidates-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.candidate-search {
+  max-width: 400px;
+}
+
+.candidates-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 48px 0;
+}
+
+.ant-table-wrapper {
+  margin-top: 16px;
+}
+
+.shortlisted-row {
+  background-color: rgba(82, 196, 26, 0.05);
+}
+
+.candidate-search {
+  width: 300px;
+}
+
+.candidates-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.candidates-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 0;
+  gap: 16px;
+}
+
+/* Make modal fit the candidate card better */
+.ant-modal-content {
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.ant-modal-body {
+  padding: 16px;
+}
+
+/* Add to your existing CSS file */
+.stat-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .candidates-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+  
+  .candidate-search {
+    width: 100%;
+  }
+  
+  .ant-table {
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 576px) {
+  .candidates-header {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .candidate-search {
+    max-width: 100%;
+    margin-bottom: 16px;
+  }
+}

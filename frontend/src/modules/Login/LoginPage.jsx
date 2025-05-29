@@ -256,6 +256,7 @@ const LoginPage = () => {
             </Form.Item>
 
             {isRegister && (
+
               <Form.Item
                 name="confirmPassword"
                 rules={[

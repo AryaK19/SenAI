@@ -13,10 +13,12 @@ def create_app():
     app = Flask(__name__)
 
     # Configuration
-    app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URL', 'postgresql://postgres:password@localhost/senai_db')
+    app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URL')
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     app.config['JWT_SECRET_KEY'] = os.getenv('JWT_SECRET_KEY', 'dev-secret-key')
     app.config['JWT_ACCESS_TOKEN_EXPIRES'] = timedelta(hours=24)
+    # Add this configuration
+    app.config['JWT_IDENTITY_CLAIM'] = 'sub'
 
     # Initialize extensions with app
     db.init_app(app)
@@ -25,10 +27,12 @@ def create_app():
     bcrypt.init_app(app)
     CORS(app, resources={r"/api/*": {"origins": "http://localhost:5173"}}, supports_credentials=True)
 
+
+
     # Import routes
     from auth import register_auth_routes
-    from company_routes import register_company_routes
-    from candidate_routes import register_candidate_routes
+    from CompanyRoutes.company_routes import register_company_routes
+    from CandidateRoutes.candidate_routes import register_candidate_routes
 
     # Register routes
     register_auth_routes(app)

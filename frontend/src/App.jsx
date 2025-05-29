@@ -4,7 +4,9 @@ import MainLayout from './layouts/MainLayout';
 import LoginPage from './modules/Login/LoginPage';
 import CompanyDashboardPage from './modules/Dashboard/Company/DashboardPage'; 
 import CandidateDashboardPage from './modules/Dashboard/Candidate/DashboardPage';
-import ProfilePage from './modules/Profile/ProfilePage';
+import CandidateProfilePage from './modules/Profile/CandidateProfile/ProfilePage';
+import CompanyProfilePage from './modules/Profile/CompanyProfile/ProfilePage';
+import BulkResumeUpload from './modules/ResumeUpload/BulkResumeUpload';
 import { isAuthenticated, getUserType } from './services/authService';
 import './App.css';
 
@@ -45,6 +47,16 @@ function App() {
     return <Navigate to="/login" replace />;
   };
 
+  // Component to render appropriate profile based on user type
+  const ProfileComponent = () => {
+    if (userType === 'company') {
+      return <CompanyProfilePage />;
+    } else if (userType === 'candidate') {
+      return <CandidateProfilePage />;
+    }
+    return <Navigate to="/login" replace />;
+  };
+
   return (
     <BrowserRouter>
       <Routes>
@@ -59,8 +71,17 @@ function App() {
           authenticated ? <MainLayout /> : <Navigate to="/login" replace />
         }>
           <Route index element={<DashboardComponent />} />
-          <Route path="profile" element={<ProfilePage />} />
-          {/* Add more nested routes as needed */}
+          <Route path="profile" element={<ProfileComponent />} />
+          
+          {/* Resume upload route - only for company users */}
+          <Route 
+            path="resume-upload" 
+            element={
+              authenticated && userType === 'company' 
+                ? <BulkResumeUpload /> 
+                : <Navigate to="/" replace />
+            } 
+          />
         </Route>
       </Routes>
     </BrowserRouter>
