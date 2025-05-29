@@ -27,7 +27,7 @@ const MainLayout = () => {
       >
         <div style={{ 
           flex: 1,
-          background: 'linear-gradient(to right,rgb(255, 255, 255),rgb(255, 255, 255),rgb(240, 247, 255))',
+          background: 'linear-gradient(to right,rgb(255, 255, 255),rgb(248, 252, 255),rgb(232, 242, 255))',
           padding: '24px',
           borderRadius: '8px',
           overflowY: 'auto'
