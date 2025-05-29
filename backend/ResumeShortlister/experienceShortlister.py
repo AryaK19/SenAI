@@ -25,6 +25,7 @@ def preprocess_text(text):
 def calculate_experience_similarity(candidate_experience, job_description):
 
     if not candidate_experience or not job_description:
+        print('nigga')
         return 0.0
     
     # Preprocess texts
@@ -119,6 +120,8 @@ def shortlist_by_experience(candidates, job_details):
             'text_similarity': similarity_score,
             'years_match': years_match_score
         }
+
+        print(candidate_with_score['experience_match_details'])
         
         scored_candidates.append(candidate_with_score)
     

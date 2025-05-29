@@ -153,6 +153,7 @@ const DashboardPage = () => {
   // Handle candidate status change
   const handleCandidateStatusChange = (candidateId, shortlisted) => {
     // Update local state
+    
     const updatedCandidates = candidates.map(candidate => {
       if (candidate.id === candidateId) {
         return { ...candidate, shortlisted };
@@ -473,7 +474,7 @@ const DashboardPage = () => {
         shortlistingResults={shortlistingResults}
         loading={shortlistingLoading}
         onShortlist={(candidate) => {
-          handleCandidateStatusChange(candidate.id, true);
+          handleCandidateStatusChange(candidate.candidate_id, true);
           setShortlistingModalVisible(false);
           message.success(`${candidate.fullname} has been shortlisted!`);
         }}

@@ -65,6 +65,9 @@ const AIShortlistModal = ({
                     size="small"
                     icon={<CheckCircleOutlined />}
                     onClick={() => {
+                      // Debug the candidate
+                      console.log('Shortlist button clicked for:', candidate);
+                      
                       if (onShortlist) {
                         onShortlist(candidate);
                       } else {

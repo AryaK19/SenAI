@@ -57,6 +57,7 @@ def get_applied_candidates(job_id):
                 'phone': candidate.phone,
                 'location': candidate.location,
                 'years_experience': candidate.years_experience,
+                'experience': candidate.experience,
                 'resume_file_path': candidate.resume_file_path,
                 'status': candidate.status,
                 'applied_at': application.applied_at.strftime('%Y-%m-%d %H:%M:%S') if application.applied_at else None,

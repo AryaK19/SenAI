@@ -359,6 +359,7 @@ def register_company_routes(app):
                     'phone': candidate.phone,
                     'location': candidate.location,
                     'years_experience': candidate.years_experience,
+                    'experience': candidate.experience,
                     'resume_path': candidate.resume_file_path,
                     'status': candidate.status,
                     'shortlisted': application.shortlisted,

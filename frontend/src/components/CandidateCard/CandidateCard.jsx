@@ -207,6 +207,19 @@ const CandidateCard = ({ candidate, onStatusChange }) => {
           </div>
         )}
 
+        {candidate.experience && (
+          <div className="candidate-section">
+            <Title level={5}>
+              Experience
+            </Title>
+            <div className="experience-content">
+              <Paragraph style={{ whiteSpace: 'pre-line' }}>
+                {candidate.experience}
+              </Paragraph>
+            </div>
+          </div>
+        )}
+
         {candidate.skills && candidate.skills.length > 0 && (
           <div className="candidate-section">
             <Title level={5}>
