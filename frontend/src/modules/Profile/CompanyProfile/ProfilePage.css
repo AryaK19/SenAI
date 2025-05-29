@@ -8,7 +8,8 @@
 .profile-header {
   margin-bottom: 20px;
   margin-left: 10px;
-  align-items: flex-start;
+  display: flex;
+  align-items: center;
 }
 
 .company-profile-card {
