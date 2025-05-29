@@ -157,6 +157,16 @@
   margin-bottom: 4px;
 }
 
+/* AI Shortlisting Modal styles */
+.shortlisted-candidate-row {
+  background-color: #f6ffed;
+  transition: background-color 0.3s ease;
+}
+
+.shortlisted-candidate-row:hover {
+  background-color: #edf9e8;
+}
+
 /* Responsive adjustments */
 @media (max-width: 768px) {
   .candidates-header {

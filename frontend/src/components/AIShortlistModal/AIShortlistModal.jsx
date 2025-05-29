@@ -4,8 +4,10 @@ import {
   CheckCircleOutlined, 
   UserOutlined, 
   EnvironmentOutlined,
-  LoadingOutlined 
+  LoadingOutlined,
+  CheckOutlined
 } from '@ant-design/icons';
+import { useState } from 'react';
 
 const { Text, Paragraph } = Typography;
 
@@ -16,9 +18,30 @@ const AIShortlistModal = ({
   loading, 
   onShortlist 
 }) => {
+  // Track shortlisted candidates
+  const [shortlistedCandidates, setShortlistedCandidates] = useState([]);
+
   // Function to format score as percentage
   const formatScore = (score) => {
     return `${Math.round(score * 100)}%`;
+  };
+
+  // Handle shortlist button click
+  const handleShortlist = (candidate) => {
+    // Add candidate to shortlisted array
+    setShortlistedCandidates([...shortlistedCandidates, candidate.candidate_id]);
+    
+    // Call the parent component's shortlist handler
+    if (onShortlist) {
+      onShortlist(candidate);
+    } else {
+      message.success(`${candidate.fullname} has been shortlisted!`);
+    }
+  };
+
+  // Check if a candidate is already shortlisted
+  const isShortlisted = (candidateId) => {
+    return shortlistedCandidates.includes(candidateId);
   };
 
   return (
@@ -50,6 +73,7 @@ const AIShortlistModal = ({
           
           <Paragraph>
             <Text strong>Total Candidates Analyzed:</Text> {shortlistingResults.total_candidates}
+            <Text strong style={{ marginLeft: 16 }}>Shortlisted:</Text> {shortlistedCandidates.length}
           </Paragraph>
           
           <Divider orientation="left">Ranked Candidates</Divider>
@@ -57,86 +81,95 @@ const AIShortlistModal = ({
           <List
             itemLayout="horizontal"
             dataSource={shortlistingResults.candidates}
-            renderItem={(candidate, index) => (
-              <List.Item
-                actions={[
-                  <Button 
-                    type="primary" 
-                    size="small"
-                    icon={<CheckCircleOutlined />}
-                    onClick={() => {
-                      // Debug the candidate
-                      console.log('Shortlist button clicked for:', candidate);
-                      
-                      if (onShortlist) {
-                        onShortlist(candidate);
-                      } else {
-                        message.success(`${candidate.fullname} has been shortlisted!`);
-                      }
-                    }}
-                  >
-                    Shortlist
-                  </Button>
-                ]}
-              >
-                <List.Item.Meta
-                  avatar={
-                    <Badge count={index + 1} style={{ backgroundColor: index < 3 ? '#52c41a' : '#1890ff' }}>
-                      <Avatar size={40} icon={<UserOutlined />} />
-                    </Badge>
-                  }
-                  title={
-                    <Space>
-                      <Text strong>{candidate.fullname}</Text>
-                      <Tag color="blue">{candidate.email}</Tag>
-                    </Space>
-                  }
-                  description={
-                    <>
-                      <div style={{ marginBottom: 8 }}>
-                        <Text type="secondary">
-                          {candidate.location && <><EnvironmentOutlined /> {candidate.location} · </>}
-                          {candidate.years_experience && <>{candidate.years_experience} years experience</>}
-                        </Text>
-                      </div>
-                      <div style={{ display: 'flex', alignItems: 'center', marginBottom: 8 }}>
-                        <Text strong style={{ marginRight: 8 }}>Match Score:</Text>
-                        <Progress 
-                          percent={Math.round(candidate.aggregate_score * 100)} 
-                          size="small" 
-                          status="active" 
-                          showInfo={false}
-                          style={{ width: 300 }}
-                        />
-                        <Text strong style={{ marginLeft: 8 }}>
-                          {formatScore(candidate.aggregate_score)}
-                        </Text>
-                      </div>
-                      <div>
-                        <Text type="secondary">Skills Match: {formatScore(candidate.skill_score || 0)}</Text>
-                        <Text type="secondary" style={{ marginLeft: 16 }}>Experience Match: {formatScore(candidate.experience_score || 0)}</Text>
-                      </div>
-                      {candidate.skill_match_details?.matched_skills?.length > 0 && (
-                        <div style={{ marginTop: 8 }}>
-                          <Text type="secondary">Matched Skills: </Text>
-                          {candidate.skill_match_details.matched_skills.map((skill, i) => (
-                            <Tag key={i} color="green">{skill.matched}</Tag>
-                          ))}
+            renderItem={(candidate, index) => {
+              const candidateShortlisted = isShortlisted(candidate.candidate_id);
+              
+              return (
+                <List.Item
+                  actions={[
+                    candidateShortlisted ? (
+                      <Button 
+                        type="default" 
+                        size="small"
+                        icon={<CheckOutlined />}
+                        disabled
+                        style={{ backgroundColor: '#f6ffed', borderColor: '#b7eb8f', color: '#52c41a' }}
+                      >
+                        Shortlisted
+                      </Button>
+                    ) : (
+                      <Button 
+                        type="primary" 
+                        size="small"
+                        icon={<CheckCircleOutlined />}
+                        onClick={() => handleShortlist(candidate)}
+                      >
+                        Shortlist
+                      </Button>
+                    )
+                  ]}
+                  className={candidateShortlisted ? 'shortlisted-candidate-row' : ''}
+                >
+                  <List.Item.Meta
+                    avatar={
+                      <Badge count={index + 1} style={{ backgroundColor: index < 3 ? '#52c41a' : '#1890ff' }}>
+                        <Avatar size={40} icon={<UserOutlined />} />
+                      </Badge>
+                    }
+                    title={
+                      <Space>
+                        <Text strong>{candidate.fullname}</Text>
+                        <Tag color="blue">{candidate.email}</Tag>
+                        {candidateShortlisted && <Tag color="green">Shortlisted</Tag>}
+                      </Space>
+                    }
+                    description={
+                      <>
+                        <div style={{ marginBottom: 8 }}>
+                          <Text type="secondary">
+                            {candidate.location && <><EnvironmentOutlined /> {candidate.location} · </>}
+                            {candidate.years_experience && <>{candidate.years_experience} years experience</>}
+                          </Text>
                         </div>
-                      )}
-                      {candidate.skill_match_details?.missing_skills?.length > 0 && (
-                        <div style={{ marginTop: 4 }}>
-                          <Text type="secondary">Missing Skills: </Text>
-                          {candidate.skill_match_details.missing_skills.map((skill, i) => (
-                            <Tag key={i} color="orange">{skill}</Tag>
-                          ))}
+                        <div style={{ display: 'flex', alignItems: 'center', marginBottom: 8 }}>
+                          <Text strong style={{ marginRight: 8 }}>Match Score:</Text>
+                          <Progress 
+                            percent={Math.round(candidate.aggregate_score * 100)} 
+                            size="small" 
+                            status="active" 
+                            showInfo={false}
+                            style={{ width: 300 }}
+                          />
+                          <Text strong style={{ marginLeft: 8 }}>
+                            {formatScore(candidate.aggregate_score)}
+                          </Text>
                         </div>
-                      )}
-                    </>
-                  }
-                />
-              </List.Item>
-            )}
+                        <div>
+                          <Text type="secondary">Skills Match: {formatScore(candidate.skill_score || 0)}</Text>
+                          <Text type="secondary" style={{ marginLeft: 16 }}>Experience Match: {formatScore(candidate.experience_score || 0)}</Text>
+                        </div>
+                        {candidate.skill_match_details?.matched_skills?.length > 0 && (
+                          <div style={{ marginTop: 8 }}>
+                            <Text type="secondary">Matched Skills: </Text>
+                            {candidate.skill_match_details.matched_skills.map((skill, i) => (
+                              <Tag key={i} color="green">{skill.matched}</Tag>
+                            ))}
+                          </div>
+                        )}
+                        {candidate.skill_match_details?.missing_skills?.length > 0 && (
+                          <div style={{ marginTop: 4 }}>
+                            <Text type="secondary">Missing Skills: </Text>
+                            {candidate.skill_match_details.missing_skills.map((skill, i) => (
+                              <Tag key={i} color="orange">{skill}</Tag>
+                            ))}
+                          </div>
+                        )}
+                      </>
+                    }
+                  />
+                </List.Item>
+              );
+            }}
           />
         </>
       ) : (
