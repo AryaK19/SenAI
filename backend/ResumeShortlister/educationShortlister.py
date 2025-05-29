@@ -6,10 +6,10 @@ def parse_degree(degree_string):
     if not degree_string:
         return None, None, None
     
-    # Normalize the string
+ 
     degree_string = degree_string.lower().strip()
     
-    # Extract degree level
+ 
     level_patterns = {
         'bachelor': ['bachelor', 'bachelors', 'b.s.', 'b.a.', 'b.tech', 'b.e.', 'undergraduate'],
         'master': ['master', 'masters', 'm.s.', 'm.a.', 'm.tech', 'm.e.', 'graduate', 'post graduate'],

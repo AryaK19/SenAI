@@ -11,13 +11,11 @@ def preprocess_text(text):
     if not text:
         return ""
     
-    # Convert to lowercase
     text = text.lower()
     
-    # Remove extra whitespace
     text = re.sub(r'\s+', ' ', text).strip()
     
-    # Remove special characters but keep spaces and periods
+ 
     text = re.sub(r'[^a-z0-9\s\.]', ' ', text)
     
     return text
@@ -35,15 +33,15 @@ def calculate_experience_similarity(candidate_experience, job_description):
     if not processed_experience or not processed_job_desc:
         return 0.0
     
-    # Generate embeddings
+  
     embeddings = model.encode([processed_experience, processed_job_desc])
     experience_embedding = embeddings[0]
     job_desc_embedding = embeddings[1]
     
-    # Calculate cosine similarity
+    
     similarity = util.pytorch_cos_sim(experience_embedding, job_desc_embedding).item()
     
-    # Normalize to ensure it's between 0 and 1
+
     return float(similarity)
 
 def experience_years_match(candidate_years, job_description):
@@ -103,17 +101,17 @@ def shortlist_by_experience(candidates, job_details):
         candidate_experience = candidate.get('experience', '')
         years_experience = candidate.get('years_experience')
         
-        # Calculate text similarity
+   
         similarity_score = calculate_experience_similarity(candidate_experience, job_description)
         
-        # Calculate years match score
+        
         years_match_score = experience_years_match(years_experience, job_description)
         
         # Combined score (70% similarity, 30% years match)
         combined_score = (similarity_score * 0.7) + (years_match_score * 0.3)
         combined_score = round(combined_score * 100) / 100  # Round to 2 decimal places
         
-        # Add score to candidate data
+       
         candidate_with_score = candidate.copy()
         candidate_with_score['experience_score'] = combined_score
         candidate_with_score['experience_match_details'] = {

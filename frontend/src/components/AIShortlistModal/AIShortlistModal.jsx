@@ -105,6 +105,7 @@ const AIShortlistModal = ({
                           percent={Math.round(candidate.aggregate_score * 100)} 
                           size="small" 
                           status="active" 
+                          showInfo={false}
                           style={{ width: 300 }}
                         />
                         <Text strong style={{ marginLeft: 8 }}>

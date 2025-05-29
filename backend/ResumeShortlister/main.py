@@ -45,9 +45,9 @@ def shortlist_candidates(job_id):
         
         # Calculate aggregate score (equal weights for skills and experience)
         aggregate_score = (skill_score * 0.5) + (experience_score * 0.5)
-        aggregate_score = round(aggregate_score * 100) / 100  # Round to 2 decimal places
+        aggregate_score = round(aggregate_score * 100) / 100  
         
-        # Add aggregate score to candidate data
+     
         candidate_with_aggregate = candidate.copy()
         candidate_with_aggregate['aggregate_score'] = aggregate_score
         
@@ -56,7 +56,7 @@ def shortlist_candidates(job_id):
     # Sort candidates by aggregate score in descending order
     ranked_candidates.sort(key=lambda c: c.get('aggregate_score', 0), reverse=True)
     
-    # Update the database with the new scores
+
     for candidate in ranked_candidates:
         application = AppliedCandidate.query.filter_by(
             job_id=job_id,
@@ -66,10 +66,10 @@ def shortlist_candidates(job_id):
         if application:
             application.compatibility_score = candidate['aggregate_score']
     
-    # Commit changes to database
+ 
     db.session.commit()
     
-    # Return the ranked candidates
+  
     return {
         'success': True,
         'job': job_details,
