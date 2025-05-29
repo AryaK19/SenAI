@@ -18,7 +18,11 @@ import {
   Tag,
   Space,
   Modal,
-  Tooltip
+  Tooltip,
+  Progress,
+  List,
+  Avatar,
+  message
 } from 'antd';
 import { 
   ExclamationCircleOutlined, 
@@ -34,15 +38,22 @@ import {
   MailOutlined,
   EnvironmentOutlined,
   StarOutlined,
-  StarFilled
+  StarFilled,
+  RobotOutlined,
+  ThunderboltOutlined
 } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
-import { fetchCompanyProfile } from '../../../services/profileService';
-import { fetchDashboardStats, fetchAppliedCandidates } from '../../../services/companyService';
+import { fetchCompanyProfile } from '../../../services/companyService';
+import { 
+  fetchDashboardStats, 
+  fetchAppliedCandidates, 
+  rankCandidatesByAI 
+} from '../../../services/companyService';
 import CandidateCard from '../../../components/CandidateCard/CandidateCard';
+import AIShortlistModal from '../../../components/AIShortlistModal/AIShortlistModal';
 import './DashboardPage.css';
 
-const { Text, Title } = Typography;
+const { Text, Title, Paragraph } = Typography;
 const { TabPane } = Tabs;
 const { Search } = Input;
 const { Option } = Select;
@@ -64,6 +75,10 @@ const DashboardPage = () => {
   // New states for candidate details modal
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedCandidate, setSelectedCandidate] = useState(null);
+  // New states for AI shortlisting
+  const [shortlistingResults, setShortlistingResults] = useState(null);
+  const [shortlistingModalVisible, setShortlistingModalVisible] = useState(false);
+  const [shortlistingLoading, setShortlistingLoading] = useState(false);
 
   useEffect(() => {
     const getProfileData = async () => {
@@ -181,6 +196,21 @@ const DashboardPage = () => {
     setModalVisible(true);
   };
 
+  // Handle AI shortlisting
+  const handleAIShortlisting = async () => {
+    try {
+      setShortlistingLoading(true);
+      const results = await rankCandidatesByAI();
+      setShortlistingResults(results);
+      setShortlistingModalVisible(true);
+    } catch (error) {
+      console.error("Failed to rank candidates:", error);
+      message.error("Failed to rank candidates. Please try again.");
+    } finally {
+      setShortlistingLoading(false);
+    }
+  };
+
   // Format date string
   const formatDate = (dateString) => {
     if (!dateString) return 'N/A';
@@ -262,6 +292,11 @@ const DashboardPage = () => {
       ),
     },
   ];
+
+  // Function to format score as percentage
+  const formatScore = (score) => {
+    return `${Math.round(score * 100)}%`;
+  };
 
   if (loading) {
     return (
@@ -350,13 +385,23 @@ const DashboardPage = () => {
             className="candidate-search"
           />
           
-          <Button 
-            icon={<UploadOutlined />} 
-            onClick={() => navigate('/resume-upload')}
-            type="primary"
-          >
-            Upload Resumes
-          </Button>
+          <Space>
+            <Button 
+              icon={<RobotOutlined />} 
+              onClick={handleAIShortlisting}
+              type="default"
+              loading={shortlistingLoading}
+            >
+              AI Shortlist
+            </Button>
+            <Button 
+              icon={<UploadOutlined />} 
+              onClick={() => navigate('/resume-upload')}
+              type="primary"
+            >
+              Upload Resumes
+            </Button>
+          </Space>
         </div>
         
         <Tabs activeKey={activeTab} onChange={handleTabChange}>
@@ -420,6 +465,19 @@ const DashboardPage = () => {
           />
         )}
       </Modal>
+      
+      {/* AI Shortlisting Results Modal */}
+      <AIShortlistModal
+        visible={shortlistingModalVisible}
+        onClose={() => setShortlistingModalVisible(false)}
+        shortlistingResults={shortlistingResults}
+        loading={shortlistingLoading}
+        onShortlist={(candidate) => {
+          handleCandidateStatusChange(candidate.id, true);
+          setShortlistingModalVisible(false);
+          message.success(`${candidate.fullname} has been shortlisted!`);
+        }}
+      />
     </div>
   );
 };

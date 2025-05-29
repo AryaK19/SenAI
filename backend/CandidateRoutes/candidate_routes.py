@@ -374,6 +374,7 @@ def register_candidate_routes(app):
                 db.session.commit()
             
             # Update candidate data from parsed resume
+            print(f"Parsed Data: {parsed_data}")
             update_result = update_candidate_from_parsed_data(user_id, parsed_data)
             
             response_data = {

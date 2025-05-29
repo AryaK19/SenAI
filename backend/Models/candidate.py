@@ -35,6 +35,7 @@ class Candidate(db.Model):
                       info={'check_constraint': "status IN ('pending', 'shortlisted', 'rejected')"})
     created_at = db.Column(db.DateTime, server_default=func.now())
     updated_at = db.Column(db.DateTime, server_default=func.now(), onupdate=func.now())
+    experience = db.Column(db.Text, nullable=True)
 
     # Relationships
     education = db.relationship('Education', backref='candidate', lazy=True, cascade='all, delete-orphan')
@@ -79,6 +80,7 @@ class AppliedCandidate(db.Model):
     job_id = db.Column(db.Integer, db.ForeignKey('companies.job_id', ondelete='CASCADE'), nullable=False)
     applied_at = db.Column(db.DateTime, server_default=func.now())
     shortlisted = db.Column(db.Boolean, default=False)
+    compatibility_score = db.Column(db.Float, default=0.0, nullable=False)
     
     # Define relationships
     candidate = db.relationship('Candidate', backref=db.backref('applications', lazy=True))

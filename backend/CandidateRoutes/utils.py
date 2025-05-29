@@ -9,6 +9,8 @@ def update_candidate_from_parsed_data(candidate_id, parsed_data):
             if not candidate:
                 return {'success': False, 'message': 'Candidate not found'}
             
+            
+            
             # Update candidate profile data
             candidate_data = parsed_data.get('candidate', {})
             if candidate_data.get('fullname'):
@@ -19,6 +21,8 @@ def update_candidate_from_parsed_data(candidate_id, parsed_data):
                 candidate.location = candidate_data['location']
             if candidate_data.get('years_experience') is not None:
                 candidate.years_experience = candidate_data['years_experience']
+            if candidate_data.get('experience'):
+                candidate.experience = str(candidate_data['experience'])
             
             # Clear existing education and skills to replace with new data
             Education.query.filter_by(candidate_id=candidate_id).delete()

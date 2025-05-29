@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
-import { Card, Form, Input, Button, Spin, message, Typography, Row, Col, Divider, Select, DatePicker, Badge,Tag } from 'antd';
+import { Card, Form, Input, Button, Spin, message, Typography, Row, Col, Divider, Select, DatePicker, Badge, Tag } from 'antd';
 import { EditOutlined, SaveOutlined, LoadingOutlined, EnvironmentOutlined, DollarOutlined, BookOutlined, ClockCircleOutlined, CalendarOutlined, CheckCircleOutlined, ExclamationCircleOutlined } from '@ant-design/icons';
-import { fetchCompanyProfile, updateCompanyProfile } from '../../../services/profileService';
+import { fetchCompanyProfile, updateCompanyProfile } from '../../../services/companyService';
 import moment from 'moment';
 import './ProfilePage.css';
 

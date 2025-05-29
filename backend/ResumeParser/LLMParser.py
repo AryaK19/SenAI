@@ -5,8 +5,6 @@ import re
 from dotenv import load_dotenv
 from google import genai
 
-from ResumeParser.validateResult import validate_and_clean_data
-
 # Load environment variables
 load_dotenv()
 
@@ -24,9 +22,6 @@ def LLMParser(resume_text):
                 'education': [],
                 'skills': []
             }
-        print(f"Resume text to parse: {resume_text}")  
-
-
 
         client = genai.Client(api_key=os.getenv("GEMINI_API_KEY"))
         
@@ -54,7 +49,8 @@ def LLMParser(resume_text):
                 "email": "string", 
                 "phone": "string",
                 "location": "string",
-                "years_experience": number
+                "years_experience": number,
+                "experience": "summary text of experiance section from resume (also include years of experience)"
             }},
             "education": [
                 {{
@@ -70,7 +66,8 @@ def LLMParser(resume_text):
                     "skill_category": "technical|soft|language|other",
                     "proficiency_level": "beginner|intermediate|advanced|expert"
                 }}
-            ]
+            ],
+            
         }}
 
         Resume text to parse:
@@ -110,7 +107,7 @@ def LLMParser(resume_text):
                 'skills': []
             }
         
-        # Validate and clean the extracted data
+        
         
         
         return parsed_data

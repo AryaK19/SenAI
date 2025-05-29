@@ -21,7 +21,8 @@ def validate_and_clean_data(data):
             'email': validate_email(candidate.get('email')),
             'phone': clean_phone(candidate.get('phone')),
             'location': clean_string(candidate.get('location')),
-            'years_experience': validate_number(candidate.get('years_experience'))
+            'years_experience': validate_number(candidate.get('years_experience')),
+            'experience': str(candidate.get('experience', ''))
         }
         
         # Validate education data
@@ -56,7 +57,6 @@ def validate_and_clean_data(data):
                 
                 if skill_entry['skill_name']:
                     result['skills'].append(skill_entry)
-        
         return result
         
     except Exception as e:

@@ -189,6 +189,7 @@ def register_company_routes(app):
                             
                             # Parse resume
                             parsed_data = resumeParser(new_file_path)
+                            print(f"Parsed Data for {filename}: {parsed_data}")
                             
                             if parsed_data.get('error'):
                                 errors.append({
@@ -222,6 +223,7 @@ def register_company_routes(app):
                                     phone=parsed_data.get('candidate', {}).get('phone'),
                                     location=parsed_data.get('candidate', {}).get('location'),
                                     years_experience=parsed_data.get('candidate', {}).get('years_experience'),
+                                    experience=parsed_data.get('candidate', {}).get('experience'),
                                     resume_file_path=relative_path,
                                     password=hashed_password
                                 )
@@ -407,3 +409,43 @@ def register_company_routes(app):
             'message': f'Candidate {"shortlisted" if shortlisted else "removed from shortlist"} successfully',
             'shortlisted': application.shortlisted
         }), 200
+    
+    @app.route('/api/company/resumeShortlister', methods=['GET'])
+    @jwt_required()
+    def ResumeShortlister():
+        """Get and rank candidates for the job posting based on AI shortlisting"""
+        try:
+            user_id = int(get_jwt_identity())
+            claims = get_jwt()
+            
+            # Verify user is a company
+            if claims.get('type') != 'company':
+                return jsonify({'message': 'Unauthorized access'}), 403
+            
+            # Optional parameters
+            threshold = request.args.get('threshold', default=0.7, type=float)
+            
+            # Get company
+            company = Company.query.get(user_id)
+            if not company:
+                return jsonify({'message': 'Company not found'}), 404
+            
+            # Import and call the shortlisting function
+            from ResumeShortlister.main import shortlist_candidates
+            
+            # Get the ranked candidates
+            results = shortlist_candidates(user_id)
+            
+            if not results['success']:
+                return jsonify({'message': results.get('message', 'Error in shortlisting')}), 400
+            
+            # Return the results
+            return jsonify({
+                'message': 'Candidates ranked successfully',
+                'job': results['job'],
+                'candidates': results['ranked_candidates'],
+                'total_candidates': results['total_candidates']
+            }), 200
+            
+        except Exception as e:
+            return jsonify({'message': f'Error in resume shortlister: {str(e)}'}), 500

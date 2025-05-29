@@ -9,7 +9,8 @@ CREATE TABLE Candidates (
     resume_file_path VARCHAR(512),
     status VARCHAR(20) CHECK (status IN ('pending', 'shortlisted', 'rejected')),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    experiance TEXT,  -- can be JSON or TEXT for flexibility
 );
 
 CREATE TYPE skillcategory AS ENUM ('technical', 'soft', 'language', 'other');
@@ -61,6 +62,7 @@ CREATE TABLE AppliedCandidates (
     job_id INTEGER NOT NULL,
     applied_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     shortlisted BOOLEAN DEFAULT FALSE,
+    compatibility_score DECIMAL(5, 2) DEFAULT 0.00, -- score out of 100
 
     FOREIGN KEY (candidate_id) REFERENCES Candidates(candidate_id) ON DELETE CASCADE,
     FOREIGN KEY (job_id) REFERENCES JobListings(job_id) ON DELETE CASCADE,

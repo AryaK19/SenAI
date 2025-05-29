@@ -22,8 +22,8 @@ def resumeParser(file_path):
     
     # Validate and clean the parsed data
     validated_data = validate_and_clean_data(parsed_data)
-    print(f"Parsed Data: {parsed_data}")
-    print(f"Validated Data: {validated_data}")
+    # print(f"Parsed Data: {parsed_data}")
+    # print(f"Validated Data: {validated_data}")
     
     # Return validated data instead of raw parsed data
     return validated_data if not validated_data.get('error') else parsed_data
